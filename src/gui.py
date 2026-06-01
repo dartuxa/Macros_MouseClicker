@@ -3,12 +3,18 @@ from tkinter import messagebox
 import threading
 from macro_engine import MouseClicker
 
+# Name of the icon file to be used for the application.
+# Recomend using .ico with sizes 16x16 and 32x32 for Windows.
+# If you are using .png, choose a square image of 32x32 or 48x48.
+ICON_PATH = "icon.png"
+
 class MacroApp:
     def __init__(self, root):
         self.root = root
         self.root.title("Macro's Mouse Clicker")
         self.root.geometry("300x200")
         self.root.resizable(False, False)
+        self.set_app_icon()
 
         # Initalize the macro engine
         self.clicker = MouseClicker()
@@ -55,6 +61,17 @@ class MacroApp:
         # User hint
         self.info_label = tk.Label(self.root, text="Press ESC for emergency stop", font=("Arial", 8), fg="gray")
         self.info_label.pack()
+
+    def set_app_icon(self):
+        try:
+            if ICON_PATH.lower().endswith('.ico'):
+                self.root.iconbitmap(ICON_PATH)
+            else:
+                icon = tk.PhotoImage(file=ICON_PATH)
+                self.root.iconphoto(True, icon)
+                self.root.icon = icon
+        except Exception as e:
+            print(f"Error occured while setting the icon: {e}")
 
     def toggle_macro(self):
         # Check if the input is a valid integer
