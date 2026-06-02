@@ -66,3 +66,5 @@ Alternatively, use the included `run_as_admin.bat` file to launch the app with a
 ## License
 
 This project does not include a specific license. Feel free to use and modify it for your own needs.
+
+![Image alt](https://github.com/dartuxa/Macros_MouseClicker/blob/main/src/download_requirements.txt.jpg)
