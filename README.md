@@ -1,6 +1,6 @@
 # Macros_MouseClicker
 
-Macros_MouseClicker is a lightweight Windows desktop utility that adds configurable extra left-clicks when you click the mouse. It is built with Python, a simple Tkinter GUI, and a small macro engine that watches for real mouse clicks and injects additional clicks automatically.
+Macros_MouseClicker is a lightweight Windows desktop utility that adds configurable extra left-clicks when you click the mouse. The macro is activated by holding down the **first side button (X1)** on your mouse while clicking, preventing accidental macro triggers during normal usage. It is built with Python, a simple Tkinter GUI, and a small macro engine that watches for real mouse clicks and injects additional clicks automatically.
 
 ## Features
 
@@ -46,11 +46,18 @@ Alternatively, use the included `run_as_admin.bat` file to launch the app with a
 
 1. Enter the number of clicks you want the macro to generate for each manual left mouse click.
 2. Click the `Enable macro` button to activate the macro.
-3. When the macro is active, each physical click will produce the configured number of clicks.
-4. Click the button again to disable the macro.
-5. Press `Esc` anytime to immediately stop the macro.
-
-## Notes
+3. When the macro is active:
+   - **Hold down the first side button (X1)** on your mouse (typically the forward button)
+   - **Click the left mouse button** while holding X1
+   - The macro will inject additional clicks automatically
+4. Without the side button held, normal left clicks work as usual
+5. Click the button again to disable the macro.
+6. Press `Esc` anytime to immediately stop the macro.mouse button events.
+- The macro only activates when the **first side button (X1) is held down** during a left click.
+- This prevents accidental macro activation during normal mouse usage.
+- The macro will not generate extra clicks while the pointer is inside the app window.
+- The GUI is intentionally small and simple so it does not interfere with normal mouse usage.
+- Requires a mouse with side buttons (most gaming and ergonomic mice have them)
 
 - The application uses Windows API polling to detect left mouse button events.
 - The macro will not generate extra clicks while the pointer is inside the app window.

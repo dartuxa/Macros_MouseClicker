@@ -52,21 +52,26 @@ class MouseClicker:
             self.running = False
 
     def _mouse_poll_loop(self):
-        """Asks the current state of the left mouse button via WinAPI and adds additional clicks
-        only when the button transitions to a pressed state (edge trigger)."""
+        """Polls mouse button states via WinAPI. When the hotkey (side button X1) is held down
+        and the macro is enabled, left clicks trigger extra clicks. Without the hotkey, clicks
+        pass through normally."""
         GetAsyncKeyState = ctypes.windll.user32.GetAsyncKeyState
-        VK_LBUTTON = 0x01
-        prev_pressed = False
+        VK_LBUTTON = 0x01      # Left mouse button
+        VK_XBUTTON1 = 0x06     # First side button (forward button)
+        prev_left_pressed = False
         while self.active:
             try:
                 # The most significant bit indicates the current state of the button
-                pressed = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0
+                left_pressed = (GetAsyncKeyState(VK_LBUTTON) & 0x8000) != 0
+                hotkey_pressed = (GetAsyncKeyState(VK_XBUTTON1) & 0x8000) != 0
             except Exception:
-                pressed = False
+                left_pressed = False
+                hotkey_pressed = False
 
-            # detect the click (transition from released -> pressed)
-            if pressed and not prev_pressed:
-                if self.running and self.is_pointer_outside_window() and not self.synthetic_clicking:
+            # Detect left click edge (released -> pressed)
+            if left_pressed and not prev_left_pressed:
+                # Only activate macro if hotkey is held AND macro is enabled AND pointer is outside window
+                if self.running and hotkey_pressed and self.is_pointer_outside_window() and not self.synthetic_clicking:
                     self.synthetic_clicking = True
                     try:
                         extra_clicks = max(0, self.clicks_per_click - 1)
@@ -76,7 +81,7 @@ class MouseClicker:
                     finally:
                         self.synthetic_clicking = False
 
-            prev_pressed = pressed
+            prev_left_pressed = left_pressed
             time.sleep(0.01)
 
     def run_loop(self):
