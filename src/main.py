@@ -2,7 +2,6 @@ import os
 import tkinter as tk
 from gui import MacroApp
 
-
 CONSOLE_COLS = 40
 CONSOLE_LINES = 15
 
